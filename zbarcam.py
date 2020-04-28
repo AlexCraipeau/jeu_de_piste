@@ -13,6 +13,7 @@ from kivy.utils import platform
 from PIL import ImageOps
 from pyzbar import pyzbar
 from kivy_garden.xcamera import XCamera
+import sqlite3 as sql
 
 MODULE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
@@ -28,6 +29,8 @@ class ZBarCam(AnchorLayout):
     Symbol = namedtuple('Symbol', ['type', 'data'])
     # checking all possible types by default
     code_types = ListProperty(set(pyzbar.ZBarSymbol))
+
+    pass_list = [] # A REMPLACER PAR UN FICHIER INDEPENDANT
 
     def __init__(self, **kwargs):
         self._request_android_permissions()
@@ -106,6 +109,8 @@ class ZBarCam(AnchorLayout):
         for code in codes:
             symbol = ZBarCam.Symbol(type=code.type, data=code.data)
             symbols.append(symbol)
+            cls.check_password(symbol.data.decode('utf-8'))
+
         return symbols
 
     @property
@@ -127,4 +132,27 @@ class ZBarCam(AnchorLayout):
         return platform == 'ios'
 
 ############################################################
+# Méthodes ajoutées (détection/gestion de mots de passe)
 ############################################################
+
+    @classmethod
+    def check_password(cls, password):
+        conn = sql.connect('jdp.db')
+        cur = conn.cursor()
+        cur.execute("""
+        SELECT * FROM passwords
+        WHERE password = ?
+        LIMIT 1;""", [password])
+        result = cur.fetchone()
+        print(result)
+        # Si un mot de passe correspond et que celui-ci n'a pas
+        # encore été trouvé, débloque le mot de passe
+        if result[2] == 0:
+            cur.execute("""
+                    UPDATE passwords
+                    SET unlocked = 1
+                    WHERE password = ?;""", [password])
+            conn.commit()
+        conn.close()
+
+        return True

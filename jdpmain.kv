@@ -1,15 +1,29 @@
 <JdpGrid>
-    BoxLayout:
+    Widget:
         Button:
-            text: "Qrcode"
+            size: 64, 64
+            pos: root.width - 70, 10
+            background_normal: './resources/images/qrcode_icon.png'
+            background_down: './resources/images/qrcode_icon_pressed.png'
             on_press:
                 root.manager.transition.direction = "left"
                 root.manager.transition.duration = 0
                 root.manager.current = "qrcode"
 
+        Button:
+            size: 64, 64
+            pos: root.width - 150, 10
+            background_normal: './resources/images/pass_icon.png'
+            background_down: './resources/images/pass_icon_pressed.png'
+            on_press:
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0
+                root.manager.current = "passlist"
+
+
 <QrcodeScreen>
     BoxLayout:
-        orientation: 'vertical'
+        orientation: 'vertical' # à peut-être enlever ?
         ZBarCam:
             id: zbarcam
             # optional, by default checks all types
@@ -29,3 +43,33 @@
                 root.manager.transition.direction = "right"
                 root.manager.transition.duration = 0
                 root.manager.current = "main"
+
+        Button:
+            size: 64, 64
+            pos: root.width - 150, 10
+            background_normal: './resources/images/pass_icon.png'
+            background_down: './resources/images/pass_icon_pressed.png'
+            on_press:
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0
+                root.manager.current = "passlist"
+
+<PasslistScreen>
+    Widget:
+        Button:
+            size: 64, 64
+            pos: root.width - 70, 10
+            background_normal: './resources/images/map.png'
+            background_down: './resources/images/map_pressed.png'
+            on_press:
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0
+                root.manager.current = "main"
+
+        Button:
+            size: 64, 64
+            pos: root.width - 150, 10
+            background_normal: './resources/images/pass_icon.png'
+            background_down: './resources/images/pass_icon_pressed.png'
+            on_press:
+                root.show_pass()
