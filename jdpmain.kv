@@ -1,0 +1,31 @@
+<JdpGrid>
+    BoxLayout:
+        Button:
+            text: "Qrcode"
+            on_press:
+                root.manager.transition.direction = "left"
+                root.manager.transition.duration = 0
+                root.manager.current = "qrcode"
+
+<QrcodeScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        ZBarCam:
+            id: zbarcam
+            # optional, by default checks all types
+            # code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
+        Label:
+            size_hint: None, None
+            size: self.texture_size[0], 50
+            text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+
+    Widget:
+        Button:
+            size: 64, 64
+            pos: root.width - 70, 10
+            background_normal: './resources/images/map.png'
+            background_down: './resources/images/map_pressed.png'
+            on_press:
+                root.manager.transition.direction = "right"
+                root.manager.transition.duration = 0
+                root.manager.current = "main"
