@@ -9,6 +9,7 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import ListProperty
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.core.audio import SoundLoader
 from kivy.utils import platform
 from PIL import ImageOps
 from pyzbar import pyzbar
@@ -16,7 +17,6 @@ from kivy_garden.xcamera import XCamera
 import sqlite3 as sql
 
 MODULE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-
 
 class ZBarCam(AnchorLayout):
     """
@@ -144,10 +144,13 @@ class ZBarCam(AnchorLayout):
         WHERE password = ?
         LIMIT 1;""", [password])
         result = cur.fetchone()
-        print(result)
         # Si un mot de passe correspond et que celui-ci n'a pas
         # encore été trouvé, débloque le mot de passe
         if result[2] == 0:
+
+            new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
+
+            new_pass.play()
             cur.execute("""
                     UPDATE passwords
                     SET unlocked = 1

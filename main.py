@@ -7,6 +7,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen, ScreenManager
 import sqlite3 as sql
+from kivy.core.audio import SoundLoader
 from zbarcam import *
 
 
@@ -126,6 +127,7 @@ class JdpMain(App):
         screen_manager.add_widget(QrcodeScreen(name='qrcode'))
         screen_manager.add_widget(PasslistScreen(name='passlist'))
         return screen_manager
+
 
 if __name__ == "__main__":
     JdpMain().run()
