@@ -2,7 +2,6 @@ import sqlite3 as sql
 
 conn = sql.connect('jdp.db')
 cur = conn.cursor()
-cur.execute("""DROP table passwords;""")
 # Création de la table de mots de passe
 cur.execute("""
 CREATE TABLE passwords(
