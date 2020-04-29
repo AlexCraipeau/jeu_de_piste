@@ -6,13 +6,50 @@ from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.clock import Clock
 import sqlite3 as sql
-from kivy.core.audio import SoundLoader
+import datetime
 from zbarcam import *
 
 
-# Objets globaux
+# Variables et fonctions globales (déso pas déso)
 screen_manager = ScreenManager() # Gestionnaire de changement d'écran
+
+
+def set_timer():
+    # récupération du temps
+    conn = sql.connect('jdp.db')
+    cur = conn.cursor()
+    print("passage dans set-timer")
+    # Passage à 0 de chaque champ unlocked
+    cur.execute("""SELECT * FROM time;""")
+    t = cur.fetchone()
+    print(t)
+    if t:
+        t = datetime.datetime.strptime(t[0], "%Y-%b-%d %H:%M:%S.%f")
+    else:
+        t = datetime.datetime.now()
+        cur.execute("""INSERT INTO time VALUES
+        (?);""", [t.strftime("%Y-%b-%d %H:%M:%S.%f")])
+        conn.commit()
+
+    conn.close()
+    return t
+
+
+original_time = set_timer()
+
+
+class Time(Label):
+    def update_time(self, *args):
+        global original_time
+        chrono = datetime.datetime.now() - original_time
+        days, seconds = chrono.days, chrono.seconds
+        hours = days * 24 + seconds // 3600
+        minutes = (seconds % 3600) // 60
+        seconds = seconds % 60
+
+        self.text = f"{hours}h{minutes:02}m{seconds:02}s"
 
 
 ##################################################
@@ -35,12 +72,14 @@ class SecondaryScreen(Screen):
 # JdpGrid - Ecran principal (map)
 ##################################################
 class JdpGrid(Screen):
+    t = Time()
+    Clock.schedule_interval(t.update_time, 1)
+
     def reinit_popup(self):
         popup = ReinitPopup(title='Réinitaliser ?',
                             size_hint=(None, None), size=(400, 200))
         popup.open()
         return True
-
 
 ##################################################
 # QrcodeScreen - Ecran de récupération des qrcodes
@@ -101,6 +140,7 @@ class ReinitPopup(Popup):
         self.dismiss()
 
     def on_reinit(self):
+        global original_time
         # Ouverture de la connexion
         conn = sql.connect('jdp.db')
         cur = conn.cursor()
@@ -111,6 +151,12 @@ class ReinitPopup(Popup):
         SET unlocked = 0;
         """)
         conn.commit()
+
+        # Retour au timer à 0
+        cur.execute("""DELETE FROM time;""")
+        conn.commit()
+        original_time = set_timer()
+
         conn.close()
         return True
 
@@ -126,6 +172,7 @@ class JdpMain(App):
         screen_manager.add_widget(JdpGrid(name='main'))
         screen_manager.add_widget(QrcodeScreen(name='qrcode'))
         screen_manager.add_widget(PasslistScreen(name='passlist'))
+
         return screen_manager
 
 

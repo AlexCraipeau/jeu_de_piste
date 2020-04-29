@@ -11,6 +11,13 @@ unlocked boolean);
 """)
 conn.commit()
 
+# Création d'une table de temps
+cur.execute("""
+CREATE TABLE time(
+start_time text);
+""")
+conn.commit()
+
 # Insertion des mots de passe
 cur.execute("""INSERT INTO passwords VALUES 
 ('http://fr.wikipedia.org/','wiki',0),
