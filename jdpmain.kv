@@ -1,8 +1,8 @@
 <JdpGrid>
     Widget:
         Button:
-            size: 64, 64
-            pos: root.width - 70, 10
+            size: 128, 128
+            pos: root.width - 128, 10
             background_normal: './resources/images/qrcode_icon.png'
             background_down: './resources/images/qrcode_icon_pressed.png'
             on_press:
@@ -11,8 +11,8 @@
                 root.manager.current = "qrcode"
 
         Button:
-            size: 64, 64
-            pos: root.width - 150, 10
+            size: 128, 128
+            pos: root.width - 268, 10
             background_normal: './resources/images/pass_icon.png'
             background_down: './resources/images/pass_icon_pressed.png'
             on_press:
@@ -21,7 +21,7 @@
                 root.manager.current = "passlist"
 
         Button:
-            size: 64, 64
+            size: 128, 128
             pos: 10, 10
             background_normal: './resources/images/settings_icon.png'
             background_down: './resources/images/settings_icon_pressed.png'
@@ -31,7 +31,7 @@
         Time:
             text:root.t.text
             pos: root.width/2 - 50, 0
-            font_size: 20
+            font_size: 40
 
 
 <QrcodeScreen>
@@ -48,8 +48,8 @@
 
     Widget:
         Button:
-            size: 64, 64
-            pos: root.width - 70, 10
+            size: 128, 128
+            pos: root.width - 128, 10
             background_normal: './resources/images/map.png'
             background_down: './resources/images/map_pressed.png'
             on_press:
@@ -58,8 +58,8 @@
                 root.manager.current = "main"
 
         Button:
-            size: 64, 64
-            pos: root.width - 150, 10
+            size: 128, 128
+            pos: root.width - 268, 10
             background_normal: './resources/images/pass_icon.png'
             background_down: './resources/images/pass_icon_pressed.png'
             on_press:
@@ -72,7 +72,7 @@
     Widget:
         Button:
             size: 64, 64
-            pos: root.width - 70, 10
+            pos: root.width - 268, 10
             background_normal: './resources/images/map.png'
             background_down: './resources/images/map_pressed.png'
             on_press:

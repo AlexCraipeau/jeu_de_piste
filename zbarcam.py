@@ -146,16 +146,17 @@ class ZBarCam(AnchorLayout):
         result = cur.fetchone()
         # Si un mot de passe correspond et que celui-ci n'a pas
         # encore été trouvé, débloque le mot de passe
-        if result[2] == 0:
+        if result:
+            if result[2] == 0:
 
-            new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
+                new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
 
-            new_pass.play()
-            cur.execute("""
-                    UPDATE passwords
-                    SET unlocked = 1
-                    WHERE password = ?;""", [password])
-            conn.commit()
+                new_pass.play()
+                cur.execute("""
+                        UPDATE passwords
+                        SET unlocked = 1
+                        WHERE password = ?;""", [password])
+                conn.commit()
         conn.close()
 
         return True
