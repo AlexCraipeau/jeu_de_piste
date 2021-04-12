@@ -1,6 +1,6 @@
 import sqlite3 as sql
 
-conn = sql.connect('jdp.db')
+conn = sql.connect('../jdp.db')
 cur = conn.cursor()
 # Création de la table de mots de passe
 cur.execute("""
@@ -21,7 +21,9 @@ conn.commit()
 # Insertion des mots de passe
 cur.execute("""INSERT INTO passwords VALUES 
 ('http://fr.wikipedia.org/','wiki',0),
-('http://www.unitaglive.com','unitag',0)
+('http://www.unitaglive.com','unitag',0),
+('test','test',0),
+('bite','tralala',0)
 ;""")
 conn.commit()
 conn.close()

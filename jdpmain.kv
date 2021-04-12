@@ -1,42 +1,49 @@
 <JdpGrid>
-    Widget:
-        Button:
-            size: 128, 128
-            pos: root.width - 128, 10
-            background_normal: './resources/images/qrcode_icon.png'
-            background_down: './resources/images/qrcode_icon_pressed.png'
-            on_press:
-                root.manager.transition.direction = "left"
-                root.manager.transition.duration = 0
-                root.manager.current = "qrcode"
+    FloatLayout:
+        Image:
+            pos: 0, 0
+            source: './resources/images/map.jpg'
+            allow_stretch: True
 
-        Button:
-            size: 128, 128
-            pos: root.width - 268, 10
-            background_normal: './resources/images/pass_icon.png'
-            background_down: './resources/images/pass_icon_pressed.png'
-            on_press:
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0
-                root.manager.current = "passlist"
+        Widget:
 
-        Button:
-            size: 128, 128
-            pos: 10, 10
-            background_normal: './resources/images/settings_icon.png'
-            background_down: './resources/images/settings_icon_pressed.png'
-            on_press: root.reinit_popup()
+            Button:
+                size: 128, 128
+                pos: root.width - 128, 10
+                background_normal: './resources/images/qrcode_icon.png'
+                background_down: './resources/images/qrcode_icon_pressed.png'
+                on_press:
+                    root.manager.transition.direction = "left"
+                    root.manager.transition.duration = 0
+                    root.manager.current = "qrcode"
 
+            Button:
+                size: 128, 128
+                pos: root.width - 268, 10
+                background_normal: './resources/images/pass_icon.png'
+                background_down: './resources/images/pass_icon_pressed.png'
+                on_press:
+                    root.manager.transition.direction = "right"
+                    root.manager.transition.duration = 0
+                    root.manager.current = "pass"
 
-        Time:
-            text:root.t.text
-            pos: root.width/2 - 50, 0
-            font_size: 40
+            Button:
+                size: 128, 128
+                pos: 10, 10
+                background_normal: './resources/images/settings_icon.png'
+                background_down: './resources/images/settings_icon_pressed.png'
+                on_press: root.reinit_popup()
+
+            Time:
+                text:root.t.text
+                pos: root.width/2 - 50, 0
+                font_size: 40
 
 
 <QrcodeScreen>
     BoxLayout:
         orientation: 'vertical' # à peut-être enlever ?
+
         ZBarCam:
             id: zbarcam
             # optional, by default checks all types
@@ -65,28 +72,40 @@
             on_press:
                 root.manager.transition.direction = "right"
                 root.manager.transition.duration = 0
-                root.manager.current = "passlist"
+                root.manager.current = "pass"
 
 
 <PasslistScreen>
+    BoxLayout:
+    	size_hint_y: None
+
+        Button:
+            size: 128, 128
+            pos: root.width/2 -32, root.height/2 -32
+            background_normal: './resources/images/pass_icon.png'
+            background_down: './resources/images/pass_icon_pressed.png'
+            on_press:
+                root.show_pass()
+
+        Button:
+            size: 128, 128
+            pos: root.width/2 -32, root.height/2 -160
+            background_normal: './resources/images/key.png'
+            background_down: './resources/images/key_pressed.png'
+            on_press:
+                root.try_password()
+
+
     Widget:
         Button:
-            size: 64, 64
-            pos: root.width - 268, 10
+            size: 128, 128
+            pos: root.width - 128, 10
             background_normal: './resources/images/map.png'
             background_down: './resources/images/map_pressed.png'
             on_press:
                 root.manager.transition.direction = "right"
                 root.manager.transition.duration = 0
                 root.manager.current = "main"
-
-        Button:
-            size: 64, 64
-            pos: root.width/2 -32, root.height/2 -32
-            background_normal: './resources/images/pass_icon.png'
-            background_down: './resources/images/pass_icon_pressed.png'
-            on_press:
-                root.show_pass()
 
 
 <ReinitPopup>:
@@ -111,13 +130,6 @@
 				pos: self.pos
 				size: self.size
 
-		Label:
-			text: root.text
-			size_hint_y: None
-			height: self.texture_size[1] + dp(16)
-			text_size: self.width - dp(16), None
-			halign: 'center'
-
 		BoxLayout:
 			size_hint_y: None
 			height: sp(48)
@@ -128,3 +140,28 @@
 			Button:
 				text: root.ok_text
 				on_press: root.ok()
+
+<PasswordPopup>:
+    title: 'Veuillez rentrer un mot de passe !'
+
+
+    BoxLayout:
+        orientation : 'vertical'
+        TextInput:
+            id: inp
+            hint_text:'Enter text'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
+            size_hint: 0.95, 0.5
+            multiline: False
+            on_text_validate : root.ok()
+
+        BoxLayout:
+            size_hint_y: None
+            height: sp(48)
+
+            Button:
+                text: root.cancel_text
+                on_press: root.cancel()
+            Button:
+                text: root.ok_text
+                on_press: root.ok()

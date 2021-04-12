@@ -6,9 +6,13 @@ from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
 import sqlite3 as sql
 import datetime
+
+from kivy.uix.textinput import TextInput
+
 from zbarcam import *
 
 
@@ -97,26 +101,7 @@ class QrcodeScreen(SecondaryScreen):
 #     pass
 
 
-##################################################
-# PasslistScreen - Ecran de visionnage des mots de passe (temporaire)
-##################################################
-class PasslistScreen(SecondaryScreen):
-    def show_pass(self):
-        conn = sql.connect('jdp.db')
-        cur = conn.cursor()
-        cur.execute("""
-               SELECT password FROM passwords
-               WHERE unlocked = 1;""")
-        result = cur.fetchall()
-        pass_list = []
-        for res in result:
-            pass_list.append(res[0])
-        conn.close()
-        popup = Popup(title='Mots de passe trouvés',
-                      content=Label(text='\n'.join(pass_list)),
-                      size_hint=(None, None), size=(400, 400))
-        popup.open()
-    pass
+
 
 
 ##################################################
@@ -163,6 +148,83 @@ class ReinitPopup(Popup):
     def on_cancel(self):
         pass
 
+##################################################
+# PasswordPopup - Rentrer un mot de passe
+##################################################
+class PasswordPopup(Popup):
+    inp = TextInput(text='Hello world')
+#    text = StringProperty('Veuillez rentrer le mot de passe.')
+    ok_text = StringProperty('Valider')
+    cancel_text = StringProperty('Annuler')
+
+    __events__ = ('on_press', 'on_cancel')
+
+    def ok(self):
+        self.dispatch('on_press')
+        self.dismiss()
+
+    def cancel(self):
+        self.dispatch('on_cancel')
+        self.dismiss()
+
+    def on_press(self):
+        print("OKKKKKKKKKKK LET'S GO")
+        print(self.ids.inp.text)
+        # Ouverture de la connexion
+        conn = sql.connect('jdp.db')
+        cur = conn.cursor()
+
+
+        # Vérification matching mot de passe / bdd
+        cur.execute("""
+                 SELECT password from passwords
+                 where password = '""" + self.ids.inp.text + """'
+                 and unlocked = 0;""")
+        result = cur.fetchall()
+        print(result)
+
+        # Si matching, débloquer mot de passe
+        if result:
+            new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
+
+            new_pass.play()
+            cur.execute("""
+            UPDATE passwords
+            SET unlocked = 1
+            WHERE password = ?;""", [self.ids.inp.text])
+            conn.commit()
+        conn.close()
+        return True
+
+    def on_cancel(self):
+        pass
+
+##################################################
+# PasslistScreen - Ecran de visionnage des mots de passe (temporaire)
+##################################################
+class PasslistScreen(SecondaryScreen):
+    def show_pass(self):
+        conn = sql.connect('jdp.db')
+        cur = conn.cursor()
+        cur.execute("""
+               SELECT password FROM passwords
+               WHERE unlocked = 1;""")
+        result = cur.fetchall()
+        pass_list = []
+        for res in result:
+            pass_list.append(res[0])
+        conn.close()
+        popup = Popup(title='Mots de passe trouvés',
+                      content=Label(text='\n'.join(pass_list)),
+                      size_hint=(None, None), size=(400, 400))
+        popup.open()
+    pass
+
+    def try_password(self):
+        popup = PasswordPopup()
+        popup.open()
+    pass
+
 
 ##################################################
 # JdpMain - Point d'entrée de l'application
@@ -171,8 +233,7 @@ class JdpMain(App):
     def build(self):
         screen_manager.add_widget(JdpGrid(name='main'))
         screen_manager.add_widget(QrcodeScreen(name='qrcode'))
-        screen_manager.add_widget(PasslistScreen(name='passlist'))
-
+        screen_manager.add_widget(PasslistScreen(name='pass'))
         return screen_manager
 
 
