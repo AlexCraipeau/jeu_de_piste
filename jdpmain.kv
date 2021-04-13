@@ -1,3 +1,6 @@
+#:include password.kv
+#:include qrcode.kv
+
 <JdpGrid>
     FloatLayout:
         Image:
@@ -40,74 +43,6 @@
                 font_size: 40
 
 
-<QrcodeScreen>
-    BoxLayout:
-        orientation: 'vertical' # à peut-être enlever ?
-
-        ZBarCam:
-            id: zbarcam
-            # optional, by default checks all types
-            # code_types: ZBarSymbol.QRCODE, ZBarSymbol.EAN13
-        Label:
-            size_hint: None, None
-            size: self.texture_size[0], 50
-            text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
-
-    Widget:
-        Button:
-            size: 128, 128
-            pos: root.width - 128, 10
-            background_normal: './resources/images/map.png'
-            background_down: './resources/images/map_pressed.png'
-            on_press:
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0
-                root.manager.current = "main"
-
-        Button:
-            size: 128, 128
-            pos: root.width - 268, 10
-            background_normal: './resources/images/pass_icon.png'
-            background_down: './resources/images/pass_icon_pressed.png'
-            on_press:
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0
-                root.manager.current = "pass"
-
-
-<PasslistScreen>
-    BoxLayout:
-    	size_hint_y: None
-
-        Button:
-            size: 128, 128
-            pos: root.width/2 -32, root.height/2 -32
-            background_normal: './resources/images/pass_icon.png'
-            background_down: './resources/images/pass_icon_pressed.png'
-            on_press:
-                root.show_pass()
-
-        Button:
-            size: 128, 128
-            pos: root.width/2 -32, root.height/2 -160
-            background_normal: './resources/images/key.png'
-            background_down: './resources/images/key_pressed.png'
-            on_press:
-                root.try_password()
-
-
-    Widget:
-        Button:
-            size: 128, 128
-            pos: root.width - 128, 10
-            background_normal: './resources/images/map.png'
-            background_down: './resources/images/map_pressed.png'
-            on_press:
-                root.manager.transition.direction = "right"
-                root.manager.transition.duration = 0
-                root.manager.current = "main"
-
-
 <ReinitPopup>:
 	GridLayout:
 		cols: 1
@@ -141,27 +76,3 @@
 				text: root.ok_text
 				on_press: root.ok()
 
-<PasswordPopup>:
-    title: 'Veuillez rentrer un mot de passe !'
-
-
-    BoxLayout:
-        orientation : 'vertical'
-        TextInput:
-            id: inp
-            hint_text:'Enter text'
-            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
-            size_hint: 0.95, 0.5
-            multiline: False
-            on_text_validate : root.ok()
-
-        BoxLayout:
-            size_hint_y: None
-            height: sp(48)
-
-            Button:
-                text: root.cancel_text
-                on_press: root.cancel()
-            Button:
-                text: root.ok_text
-                on_press: root.ok()
