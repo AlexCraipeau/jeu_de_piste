@@ -18,7 +18,7 @@ start_time text);
 """)
 conn.commit()
 
-# Insertion des mots de passe
+# Insertion des mots de passe
 cur.execute("""INSERT INTO passwords VALUES 
 ('http://fr.wikipedia.org/','wiki',0),
 ('http://www.unitaglive.com','unitag',0),
@@ -26,4 +26,22 @@ cur.execute("""INSERT INTO passwords VALUES
 ('bite','tralala',0)
 ;""")
 conn.commit()
+
+# Création d'une table d'avancement des enigmes
+cur.execute("""
+CREATE TABLE enigmes(
+name text,
+desc text,
+command text,
+cleared boolean);
+""")
+conn.commit()
+
+#Insertion des enigmes
+cur.execute("""INSERT INTO enigmes VALUES 
+('enigme_map', 'carte complétée', 'clear_enigme_map()', 0),
+('test', 'test pour unlock au lancement app', 'print("ca fonctionne")', 1)
+;""")
+conn.commit()
+
 conn.close()

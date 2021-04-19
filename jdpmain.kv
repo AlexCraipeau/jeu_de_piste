@@ -4,11 +4,34 @@
 <JdpGrid>
     FloatLayout:
         Image:
+            id: map
             pos: 0, 0
-            source: './resources/images/map.jpg'
+            source: './resources/images/empty_map_buttons.png'
             allow_stretch: True
 
         Widget:
+            PopupBttn:
+                id: plaine
+                id_name: 'plaine'
+                name: 'plaine'
+                text: ''
+                font_size: 100
+                color: 255, 255, 255, 1
+                pos: 775, root.height - 650
+                size: 380, 230
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0
+
+            PopupBttn:
+                id: montagne
+                id_name: 'montagne'
+                name: 'montagne'
+                text: ''
+
+                pos: 0, 0
+                size: 380, 230
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0
 
             Button:
                 size: 128, 128
@@ -48,7 +71,7 @@
 		cols: 1
 		padding: '12dp'
 		size_hint_x: 0.66
-		size_hint_y: None
+		size_hint_y: 0
 		height: self.minimum_height
 
 		canvas:
@@ -76,3 +99,61 @@
 				text: root.ok_text
 				on_press: root.ok()
 
+<ChooseLocPopup>:
+    title: 'Quel est cet endroit ?'
+
+# Pour faire des boutons :
+    GridLayout:
+        col: 3
+        rows: 3
+        Button:
+            text: 'plaine'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
+        Button:
+            text: 'montagne'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
+        Button:
+            text: 'fontaine'
+        Button:
+            text: 'foret'
+        Button:
+            text: 'cité'
+        Button:
+            text: 'marais'
+        Button:
+            text: 'ciel'
+        Button:
+            text: 'remparts'
+        Button:
+            text: 'bite'
+
+
+#        BoxLayout:
+#            size_hint_y: None
+#            height: sp(48)
+
+#            Button:
+#                text: root.ok_text
+#                on_press: root.ok()
+
+#            Button:
+#                text: root.cancel_text
+#                on_press: root.cancel()
+
+
+# Fonctionnement en textinput
+#        TextInput:
+#            id: text_input
+#            hint_text:'Entrer le lieu'
+#            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
+#            size_hint: 0.95, 0.5
+#            multiline: False
+#            on_text_validate : root.ok()
+
+#    BoxLayout:
+#        text_input: text_input
+#        size_hint_y: 0.9
+#        size_hiny_x: 0.9
+#        orientation : 'vertical'

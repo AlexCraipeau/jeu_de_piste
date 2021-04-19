@@ -11,7 +11,6 @@ from kivy.uix.label import Label
 # PasswordPopup - Rentrer un mot de passe
 ##################################################
 class PasswordPopup(Popup):
-    inp = TextInput(text='Hello world')
 #    text = StringProperty('Veuillez rentrer le mot de passe.')
     ok_text = StringProperty('Valider')
     cancel_text = StringProperty('Annuler')
