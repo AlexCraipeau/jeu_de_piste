@@ -1,4 +1,4 @@
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.core.window import Window
 
 
@@ -17,3 +17,4 @@ class SecondaryScreen(Screen):
         if key == 27:  # ESC (BACK sur Android)
             screen_manager.current = 'main'
             return True
+

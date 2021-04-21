@@ -20,17 +20,21 @@ import datetime
 ### imports internes
 import password
 import qrcode
-import clear_data
+import utils
+import log
 from zbarcam import *
 
-
 # Variables et fonctions globales (déso pas déso)
+
 screen_manager = ScreenManager()  # Gestionnaire de changement d'écran
 
-print(App.get_running_app())
+
+def add_log(text_value):
+   screen_manager.get_screen('log').ids['logs'].text += ("\n" + text_value)
 
 
 def clear_enigme_map():
+    print(screen_manager.children)
     button_list = screen_manager.get_screen('main').ids.copy()
     button_list.pop('map')
     # Désactiver les boutons
@@ -39,10 +43,25 @@ def clear_enigme_map():
         screen_manager.get_screen('main').ids[id].color = (0, 0, 0, 0)
     # Changer l'image
     screen_manager.get_screen('main').ids['map'].source = './resources/images/map_cleared.png'
+    # Ajouter texte log
+    add_log(search_log('enigme_map'))
+
+def search_log(enigme):
+    conn = sql.connect('jdp.db')
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT texte FROM textes
+    WHERE password = '""" + str(enigme) + """'
+     ORDER BY position;
+    """)
+
+    res = cur.fetchall()
+    print(res[0][0])
+    return res[0][0]
 
 
 # Lancement des fonctions d'avancement
-
 def get_cleared_enigmes():
     conn = sql.connect('jdp.db')
     cur = conn.cursor()
@@ -58,7 +77,6 @@ def get_cleared_enigmes():
         exec(res[2], globals(), locals())
 
     conn.close()
-
 
 def clear_sound():
     SoundLoader.load('resources/sounds/new_pass.wav').play()
@@ -250,7 +268,10 @@ class JdpMain(App):
         screen_manager.add_widget(JdpGrid(name='main'))
         screen_manager.add_widget(qrcode.QrcodeScreen(name='qrcode'))
         screen_manager.add_widget(password.PasslistScreen(name='pass'))
+        screen_manager.add_widget(log.LogScreen(name='log'))
+        add_log(">> Il était une fois...")
         get_cleared_enigmes()
+        print(screen_manager.screen_names)
         return screen_manager
 
 
