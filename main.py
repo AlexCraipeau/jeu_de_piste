@@ -19,18 +19,23 @@ import datetime
 
 ### imports internes
 import password
-import qrcode
+import qrcodes
 import utils
 import log
 from zbarcam import *
 
 # Variables et fonctions globales (déso pas déso)
+global logs_list
+logs_list = []
 
 screen_manager = ScreenManager()  # Gestionnaire de changement d'écran
 
 
-def add_log(text_value):
-   screen_manager.get_screen('log').ids['logs'].text += ("\n" + text_value)
+def add_log(lst):
+   globals()['logs_list'].append(lst)
+   globals()['logs_list'].sort(key=lambda x: x[1])
+
+   screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n' for elt in logs_list)
 
 
 def clear_enigme_map():
@@ -51,14 +56,14 @@ def search_log(enigme):
     cur = conn.cursor()
 
     cur.execute("""
-    SELECT texte FROM textes
+    SELECT texte, position FROM textes
     WHERE password = '""" + str(enigme) + """'
      ORDER BY position;
     """)
 
     res = cur.fetchall()
-    print(res[0][0])
-    return res[0][0]
+    print(res[0])
+    return res[0]
 
 
 # Lancement des fonctions d'avancement
@@ -266,10 +271,10 @@ class ReinitPopup(Popup):
 class JdpMain(App):
     def build(self):
         screen_manager.add_widget(JdpGrid(name='main'))
-        screen_manager.add_widget(qrcode.QrcodeScreen(name='qrcode'))
+        screen_manager.add_widget(qrcodes.QrcodeScreen(name='qrcode'))
         screen_manager.add_widget(password.PasslistScreen(name='pass'))
         screen_manager.add_widget(log.LogScreen(name='log'))
-        add_log(">> Il était une fois...")
+        add_log(search_log('init'))
         get_cleared_enigmes()
         print(screen_manager.screen_names)
         return screen_manager

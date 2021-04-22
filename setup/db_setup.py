@@ -56,7 +56,7 @@ conn.commit()
 #Insertion des textes
 cur.execute("""INSERT INTO textes VALUES 
 ('init', 'Il était une fois...', 0),
-('enigme_map', '>> La carte est complétée', 1)
+('enigme_map', 'La carte est complétée', 1)
 ;""")
 conn.commit()
 
