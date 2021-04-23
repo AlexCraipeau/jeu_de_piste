@@ -1,6 +1,7 @@
 #:include password.kv
 #:include qrcodes.kv
 #:include log.kv
+#:include fables.kv
 
 <JdpGrid>
     FloatLayout:
@@ -58,12 +59,22 @@
             Button:
                 size: 128, 128
                 pos: root.width - 128, 300
-                background_normal: './resources/images/parchment.png'
-                background_down: './resources/images/parchment.png'
+                background_normal: './resources/images/quill.png'
+                background_down: './resources/images/quill.png'
                 on_press:
                     root.manager.transition.direction = "up"
-                    root.manager.transition.duration = 0
+                    root.manager.transition.duration = 0.1
                     root.manager.current = "log"
+
+            Button:
+                size: 128, 128
+                pos: root.width - 128, 170
+                background_normal: './resources/images/book.png'
+                background_down: './resources/images/book.png'
+                on_press:
+                    root.manager.transition.direction = "down"
+                    root.manager.transition.duration = 0.1
+                    root.manager.current = "fables"
 
             Button:
                 size: 128, 128

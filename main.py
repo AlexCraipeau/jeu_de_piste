@@ -18,6 +18,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 import datetime
 
 ### imports internes
+import fables
 import password
 import qrcodes
 import utils
@@ -274,6 +275,7 @@ class JdpMain(App):
         screen_manager.add_widget(qrcodes.QrcodeScreen(name='qrcode'))
         screen_manager.add_widget(password.PasslistScreen(name='pass'))
         screen_manager.add_widget(log.LogScreen(name='log'))
+        screen_manager.add_widget(fables.FablesScreen(name='fables'))
         add_log(search_log('init'))
         get_cleared_enigmes()
         print(screen_manager.screen_names)
