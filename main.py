@@ -1,8 +1,8 @@
 ### imports inutilisés
-# from kivy.app import App
+from kivy.app import App
 # from kivy.uix.behaviors import ButtonBehavior
 # from kivy.clock import Clock
-# import sqlite3 as sql
+import sqlite3 as sql
 # from kivy.uix.image import Image
 # from kivy.uix.textinput import TextInput
 
@@ -18,6 +18,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 import datetime
 
 ### imports internes
+import enigmes
 import fables
 import password
 import qrcodes
@@ -276,6 +277,7 @@ class JdpMain(App):
         screen_manager.add_widget(password.PasslistScreen(name='pass'))
         screen_manager.add_widget(log.LogScreen(name='log'))
         screen_manager.add_widget(fables.FablesScreen(name='fables'))
+        screen_manager.add_widget(enigmes.LievreScreen(name='lievre'))
         add_log(search_log('init'))
         get_cleared_enigmes()
         print(screen_manager.screen_names)

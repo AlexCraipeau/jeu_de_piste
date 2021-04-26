@@ -1,7 +1,8 @@
 #:include password.kv
-#:include qrcodes.kv
 #:include log.kv
 #:include fables.kv
+#:include qrcodes.kv
+#:include enigmes.kv
 
 <JdpGrid>
     FloatLayout:
@@ -82,6 +83,22 @@
                 background_normal: './resources/images/settings_icon.png'
                 background_down: './resources/images/settings_icon_pressed.png'
                 on_press: root.reinit_popup()
+
+            Button:
+                size: 128, 128
+                pos: 10, 170
+                #disabled: True
+                #background_color: 0, 0, 0, 0
+                background_normal: './resources/images/clock.png'
+                background_down: './resources/images/clock.png'
+                on_press:
+                    root.manager.transition.direction = "down"
+                    root.manager.transition.duration = 0.1
+                    root.manager.current = "lievre"
+
+
+
+
 
             Time:
                 text:root.t.text
