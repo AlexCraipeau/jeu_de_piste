@@ -2,7 +2,6 @@
 #:include log.kv
 #:include fables.kv
 #:include qrcodes.kv
-#:include enigmes.kv
 
 <JdpGrid>
     FloatLayout:
@@ -20,10 +19,10 @@
                 text: ''
                 font_size: 100
                 color: 255, 255, 255, 1
-                pos: 775, root.height - 650
-                size: 380, 230
+                pos: 1020, root.height - 440
+                size: 380, 220
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0
+                background_color: 0, 0, 0, 0.5
 
             PopupBttn:
                 id: montagne
@@ -31,10 +30,87 @@
                 name: 'montagne'
                 text: ''
 
-                pos: 0, 0
-                size: 380, 230
+                pos: 1140, root.height - 780
+                size: 200, 230
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: jungle
+                id_name: 'jungle'
+                name: 'jungle'
+                text: ''
+
+                pos: 1350, root.height - 710
+                size: 220, 240
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: ciel
+                id_name: 'ciel'
+                name: 'ciel'
+                text: ''
+
+                pos: 880, root.height - 295
+                size: 190, 135
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: marais
+                id_name: 'marais'
+                name: 'marais'
+                text: ''
+
+                pos: 1070, root.height - 195
+                size: 300, 175
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: fontaine
+                id_name: 'fontaine'
+                name: 'fontaine'
+                text: ''
+
+                pos: 1375, root.height - 40
+                size: 235, 175
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: jardin
+                id_name: 'jardin'
+                name: 'jardin'
+                text: ''
+
+                pos: 510, root.height - 380
+                size: 325, 185
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: ville
+                id_name: 'ville'
+                name: 'ville'
+                text: ''
+
+                pos: 900, root.height - 660
+                size: 235, 125
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
+
+            PopupBttn:
+                id: remparts
+                id_name: 'remparts'
+                name: 'remparts'
+                text: ''
+
+                pos: 700, root.height - 780
+                size: 400, 125
+                on_press: self.open_popup()
+                background_color: 0, 0, 0, 0.5
 
             Button:
                 size: 128, 128
@@ -168,18 +244,32 @@
             on_release: root.dismiss()
         Button:
             text: 'fontaine'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
         Button:
-            text: 'foret'
+            text: 'jungle'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
         Button:
-            text: 'cité'
+            text: 'ville'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
         Button:
             text: 'marais'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
         Button:
             text: 'ciel'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
         Button:
             text: 'remparts'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
         Button:
-            text: 'bite'
+            text: 'jardin'
+            on_release: root.check_status(self.text)
+            on_release: root.dismiss()
 
 
 #        BoxLayout:

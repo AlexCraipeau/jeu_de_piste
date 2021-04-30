@@ -39,7 +39,7 @@ conn.commit()
 
 #Insertion des enigmes
 cur.execute("""INSERT INTO enigmes VALUES 
-('enigme_map', 'carte complétée', 'clear_enigme_map()', 0),
+('enigme_map', 'carte complétée', 'clear_enigme_map(screen_manager)', 0),
 ('test', 'test pour unlock au lancement app', 'print("ca fonctionne")', 1)
 ;""")
 conn.commit()

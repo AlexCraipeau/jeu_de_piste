@@ -34,14 +34,15 @@ logs_list = []
 screen_manager = ScreenManager()  # Gestionnaire de changement d'écran
 
 
-def add_log(lst):
-   globals()['logs_list'].append(lst)
-   globals()['logs_list'].sort(key=lambda x: x[1])
+def add_log(screen_manager, lst):
+    global logs_list
+    logs_list.append(lst)
+    logs_list.sort(key=lambda x: x[1])
+    print(logs_list)
+    screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n' for elt in logs_list)
 
-   screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n' for elt in logs_list)
 
-
-def clear_enigme_map():
+def clear_enigme_map(screen_manager):
     print(screen_manager.children)
     button_list = screen_manager.get_screen('main').ids.copy()
     button_list.pop('map')
@@ -52,7 +53,7 @@ def clear_enigme_map():
     # Changer l'image
     screen_manager.get_screen('main').ids['map'].source = './resources/images/map_cleared.png'
     # Ajouter texte log
-    add_log(search_log('enigme_map'))
+    add_log(screen_manager, search_log('enigme_map'))
 
 def search_log(enigme):
     conn = sql.connect('jdp.db')
@@ -162,7 +163,7 @@ class ChooseLocPopup(Popup):
                 """)
                 conn.commit()
                 conn.close()
-                clear_enigme_map()
+                clear_enigme_map(App.get_running_app().root)
                # Ajouter backlog ici ?
                 clear_sound()
 
@@ -279,8 +280,9 @@ class JdpMain(App):
         screen_manager.add_widget(log.LogScreen(name='log'))
         screen_manager.add_widget(fables.FablesScreen(name='fables'))
         screen_manager.add_widget(enigmes.LievreScreen(name='lievre'))
-        screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
-        add_log(search_log('init'))
+        #screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
+        add_log(screen_manager, search_log('init'))
+        add_log(screen_manager, search_log('enigme_map'))
         get_cleared_enigmes()
         print(screen_manager.screen_names)
         return screen_manager
