@@ -24,6 +24,7 @@ import password
 import qrcodes
 import utils
 import log
+from plyer import gps
 from zbarcam import *
 
 # Variables et fonctions globales (déso pas déso)
@@ -278,6 +279,7 @@ class JdpMain(App):
         screen_manager.add_widget(log.LogScreen(name='log'))
         screen_manager.add_widget(fables.FablesScreen(name='fables'))
         screen_manager.add_widget(enigmes.LievreScreen(name='lievre'))
+        screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
         add_log(search_log('init'))
         get_cleared_enigmes()
         print(screen_manager.screen_names)

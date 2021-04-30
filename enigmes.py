@@ -13,6 +13,7 @@ from kivy.lang import Builder
 from functools import partial
 from kivy.clock import Clock
 import zbarcam
+from plyer import gps
 
 from main import clear_sound
 
@@ -57,3 +58,18 @@ class LievreScreen(SecondaryScreen):
             self.start()
         else:
             self.start()
+
+
+class DessinScreen(SecondaryScreen):
+
+    def on_gps_location(self, **kwargs):
+        self.ids['lat'].text = str(kwargs['lat'])
+        self.ids['lon'].text = str(kwargs['lon'])
+        print(kwargs)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        gps.configure(on_location=self.on_gps_location)
+        print("On l'a créé hihihihihihi")
+        gps.start()
+
