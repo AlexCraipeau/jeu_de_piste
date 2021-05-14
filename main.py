@@ -34,7 +34,23 @@ logs_list = []
 screen_manager = ScreenManager()  # Gestionnaire de changement d'écran
 
 
+def retrieve_logs(screen_manager):
+    conn = sql.connect('jdp.db')
+    cur = conn.cursor()
+
+    cur.execute("""
+            SELECT password FROM passwords
+            WHERE unlocked = 1
+            ;""")
+
+    res = cur.fetchall()
+    print(res)
+    for password in res:
+        print(password[0])
+        add_log(screen_manager, search_log(password[0]))
+
 def add_log(screen_manager, lst):
+    print('adding log : ',lst)
     global logs_list
     logs_list.append(lst)
     logs_list.sort(key=lambda x: x[1])
@@ -281,8 +297,7 @@ class JdpMain(App):
         screen_manager.add_widget(fables.FablesScreen(name='fables'))
         screen_manager.add_widget(enigmes.LievreScreen(name='lievre'))
         #screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
-        add_log(screen_manager, search_log('init'))
-        add_log(screen_manager, search_log('enigme_map'))
+        retrieve_logs(screen_manager)
         get_cleared_enigmes()
         print(screen_manager.screen_names)
         return screen_manager

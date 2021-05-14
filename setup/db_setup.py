@@ -7,6 +7,7 @@ cur.execute("""
 CREATE TABLE passwords(
 password text,
 screen_name text,
+command text,
 unlocked boolean);
 """)
 conn.commit()
@@ -20,10 +21,27 @@ conn.commit()
 
 # Insertion des mots de passe
 cur.execute("""INSERT INTO passwords VALUES 
-('http://fr.wikipedia.org/','wiki',0),
-('http://www.unitaglive.com','unitag',0),
-('test','test',0),
-('bite','tralala',0)
+('http://fr.wikipedia.org/','wiki','',0),
+('http://www.unitaglive.com','unitag','',0),
+('test','test','',0),
+('init','init','',1),
+('enigme_map','enigme_map','',0),
+('log_2','log_2','add_log("log_2")',0),
+('log_3','log_3','add_log("log_3")',0),
+('log_4','log_4','add_log("log_4")',0),
+('log_5','log_5','add_log("log_5")',0),
+('log_6','log_6','add_log("log_6")',0),
+('log_7','log_7','add_log("log_7")',0),
+('log_8','log_8','add_log("log_8")',0),
+('log_9','log_9','add_log("log_9")',0),
+('log_19','log_10','add_log("log_10")',0),
+('log_11','log_11','add_log("log_11")',0),
+('log_12','log_12','add_log("log_12")',0),
+('log_13','log_13','add_log("log_13")',0),
+('log_14','log_14','add_log("log_14")',0),
+('log_15','log_15','add_log("log_15")',0),
+('log_16','log_16','add_log("log_16")',0),
+('log_17','log_17','add_log("log_17")',0)
 ;""")
 conn.commit()
 
@@ -56,7 +74,25 @@ conn.commit()
 #Insertion des textes
 cur.execute("""INSERT INTO textes VALUES 
 ('init', 'Il était une fois...', 0),
-('enigme_map', 'La carte est complétée', 1)
+('enigme_map', 'Vous avez fait preuve de [color=#04d3ff]CURIOSITE[/color].
+Au contact de l’inconnu, vous souhaitez apprendre et comprendre.
+Vous êtes prêts. Votre voyage commence…', 1),
+('log_2', 'De la mer jusqu’aux cieux, des plus grands hommes aux plus petits insectes, chaque chose à son rôle et sa leçon à apporter.
+A la croisée des mondes, vous découvrirez une nouvelle vérité.', 2),
+('log_3', 'La carte est complétée', 3),
+('log_4', 'La carte est complétée', 4),
+('log_5', 'La carte est complétée', 5),
+('log_6', 'La carte est complétée', 6),
+('log_7', 'La carte est complétée', 7),
+('log_8', 'La carte est complétée', 8),
+('log_9', 'La carte est complétée', 9),
+('log_10', 'La carte est complétée', 10),
+('log_11', 'La carte est complétée', 11),
+('log_12', 'La carte est complétée', 12),
+('log_13', 'La carte est complétée', 13),
+('log_14', 'La carte est complétée', 14),
+('log_15', 'La carte est complétée', 15),
+('log_16', 'La carte est complétée', 16)
 ;""")
 conn.commit()
 

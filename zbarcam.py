@@ -12,6 +12,8 @@ from kivy.properties import ListProperty, StringProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.core.audio import SoundLoader
 from kivy.utils import platform
+
+from main import search_log, add_log
 from utils import fix_android_image
 import sqlite3 as sql
 
@@ -245,6 +247,7 @@ class ZBarCam(AnchorLayout):
 
     @classmethod
     def check_password(cls, password):
+        print("checking password")
         conn = sql.connect('jdp.db')
         cur = conn.cursor()
         cur.execute("""
@@ -252,10 +255,11 @@ class ZBarCam(AnchorLayout):
         WHERE password = ?
         LIMIT 1;""", [password])
         result = cur.fetchone()
+        print("checkpassword result :", result)
         # Si un mot de passe correspond et que celui-ci n'a pas
         # encore été trouvé, débloque le mot de passe
         if result:
-            if result[2] == 0:
+            if result[3] == 0:
 
                 new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
 
@@ -265,6 +269,11 @@ class ZBarCam(AnchorLayout):
                         SET unlocked = 1
                         WHERE password = ?;""", [password])
                 conn.commit()
-        conn.close()
+                print(App.get_running_app())
+                print(App.get_running_app().root)
+                print(password)
+                add_log(App.get_running_app().root, search_log(password))
 
+
+        conn.close()
         return True

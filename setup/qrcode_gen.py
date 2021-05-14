@@ -8,7 +8,10 @@ logo_display.thumbnail((60, 60))
 
 # test
 qr_list = ['nawak', 'hihihi', 'essaye_encore',
-           'mortdelol', 'fauxqr', 'qrcoude']
+           'mortdelol', 'fauxqr', 'qrcoude', 'enigme_map']
+for i in range (2,18):
+    qr_list.append('log_'+str(i))
+
 for elt in qr_list:
     qr = qrcode.QRCode(
         version=1,
