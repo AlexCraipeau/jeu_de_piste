@@ -25,23 +25,23 @@ cur.execute("""INSERT INTO passwords VALUES
 ('http://www.unitaglive.com','unitag','',0),
 ('test','test','',0),
 ('init','init','',1),
-('enigme_map','enigme_map','',0),
-('log_2','log_2','add_log("log_2")',0),
-('log_3','log_3','add_log("log_3")',0),
-('log_4','log_4','add_log("log_4")',0),
-('log_5','log_5','add_log("log_5")',0),
-('log_6','log_6','add_log("log_6")',0),
-('log_7','log_7','add_log("log_7")',0),
-('log_8','log_8','add_log("log_8")',0),
-('log_9','log_9','add_log("log_9")',0),
-('log_19','log_10','add_log("log_10")',0),
-('log_11','log_11','add_log("log_11")',0),
-('log_12','log_12','add_log("log_12")',0),
-('log_13','log_13','add_log("log_13")',0),
-('log_14','log_14','add_log("log_14")',0),
-('log_15','log_15','add_log("log_15")',0),
-('log_16','log_16','add_log("log_16")',0),
-('log_17','log_17','add_log("log_17")',0)
+('enigme_map','enigme_map','clear_enigme_map(App.get_running_app().root)',0),
+('log_2','log_2','add_log(App.get_running_app().root, search_log("log_2"))',0),
+('log_3','log_3','clear_enigme_2(App.get_running_app().root)',0),
+('log_4','log_4','',0),
+('log_5','log_5','',0),
+('log_6','log_6','',0),
+('log_7','log_7','',0),
+('log_8','log_8','',0),
+('log_9','log_9','',0),
+('log_19','log_10','',0),
+('log_11','log_11','',0),
+('log_12','log_12','',0),
+('log_13','log_13','',0),
+('log_14','log_14','',0),
+('log_15','log_15','',0),
+('log_16','log_16','',0),
+('log_17','log_17','',0)
 ;""")
 conn.commit()
 
@@ -58,6 +58,7 @@ conn.commit()
 #Insertion des enigmes
 cur.execute("""INSERT INTO enigmes VALUES 
 ('enigme_map', 'carte complétée', 'clear_enigme_map(screen_manager)', 0),
+('enigme_2', 'labyrinthe ouvert', 'clear_enigme_2(screen_manager)', 0),
 ('test', 'test pour unlock au lancement app', 'print("ca fonctionne")', 1)
 ;""")
 conn.commit()
@@ -74,13 +75,13 @@ conn.commit()
 #Insertion des textes
 cur.execute("""INSERT INTO textes VALUES 
 ('init', 'Il était une fois...', 0),
-('enigme_map', 'Vous avez fait preuve de [color=#04d3ff]CURIOSITE[/color].
+('enigme_map', 'Vous avez fait preuve de [color=#ff0000]CURIOSITE[/color].
 Au contact de l’inconnu, vous souhaitez apprendre et comprendre.
 Vous êtes prêts. Votre voyage commence…', 1),
 ('log_2', 'De la mer jusqu’aux cieux, des plus grands hommes aux plus petits insectes, chaque chose à son rôle et sa leçon à apporter.
 A la croisée des mondes, vous découvrirez une nouvelle vérité.', 2),
-('log_3', 'La carte est complétée', 3),
-('log_4', 'La carte est complétée', 4),
+('log_3', 'log 3 - [color=#ff7f00]DETERMINATION[/color]', 3),
+('log_4', 'log 4 - début énigme 2 (analyse de fable)', 4),
 ('log_5', 'La carte est complétée', 5),
 ('log_6', 'La carte est complétée', 6),
 ('log_7', 'La carte est complétée', 7),

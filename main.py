@@ -28,11 +28,35 @@ from plyer import gps
 from zbarcam import *
 
 # Variables et fonctions globales (déso pas déso)
-global logs_list
-logs_list = []
-
 screen_manager = ScreenManager()  # Gestionnaire de changement d'écran
+print("MAIN - CREATION DE LOGS LIST")
+logs_list = []
+first_pass = True
+print(hex(id(logs_list)))
 
+def show_pastille(screen_manager, enigme):
+    screen_manager.get_screen('main').ids[enigme].disabled = False
+
+
+
+def already_retrieved(enigme):
+    conn = sql.connect('jdp.db')
+    cur = conn.cursor()
+
+    cur.execute("""
+            SELECT password FROM passwords
+            WHERE unlocked = 1 AND password = ? 
+            ;""", [enigme])
+
+    res = cur.fetchall()
+    print("résultat already retrieved : " + str(res))
+    conn.close()
+    if res:
+        print("enigme déjà cleared : " + str(enigme))
+        return True
+    else:
+        print("nouvelle enigme cleared : " + str(enigme))
+        return False
 
 def retrieve_logs(screen_manager):
     conn = sql.connect('jdp.db')
@@ -46,20 +70,68 @@ def retrieve_logs(screen_manager):
     res = cur.fetchall()
     print(res)
     for password in res:
-        print(password[0])
+        print("retrieve_logs - adding log : " + str(password[0]))
         add_log(screen_manager, search_log(password[0]))
+    # fix dégueulasse pour régler le probleme de duplication
+    # d'instanciation de la liste au démarrage
+    global first_pass
+    first_pass = True
+    conn.close()
 
 def add_log(screen_manager, lst):
-    print('adding log : ',lst)
     global logs_list
-    logs_list.append(lst)
-    logs_list.sort(key=lambda x: x[1])
-    print(logs_list)
-    screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n' for elt in logs_list)
+    global first_pass
+    if logs_list == [] and first_pass:
+        # fix dégueulasse pour régler le probleme de duplication
+        # d'instanciation de la liste au démarrage
+        first_pass = False
+        retrieve_logs(screen_manager)
+    # suite du fix dégueulasse : empêcher la duplication des logs :
 
+
+    # print(hex(id(logs_list)))
+
+    print("add_log - liste originale : " + str(logs_list))
+    print('add_log - adding log : ',lst)
+    # suite du fix dégueulasse : empêcher la duplication des logs :
+    if lst not in logs_list:
+        logs_list.append(lst)
+        print("add_log - nouvelle liste des logs : " + str(logs_list))
+        logs_list.sort(key=lambda x: x[1])
+        print(logs_list)
+        screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n\n' for elt in logs_list)
+
+
+def update_clear_log(log):
+    conn = sql.connect('jdp.db')
+    cur = conn.cursor()
+    print("update_clear_log - rajout du log : " + str(log))
+    # enigme_map débloquée en bdd
+    cur.execute("""
+    UPDATE passwords
+    SET unlocked = 1
+    WHERE password = ?;
+    """, [log])
+    conn.commit()
+    conn.close()
+
+
+def update_clear_enigme(enigme):
+    conn = sql.connect('jdp.db')
+    cur = conn.cursor()
+    print("update_clear_enigme - déblocage de l'énigme : " + str(enigme))
+    # enigme_map débloquée en bdd
+    cur.execute("""
+    UPDATE enigmes
+    SET cleared = 1
+    WHERE name = ?;
+    """, [enigme])
+    conn.commit()
+    conn.close()
 
 def clear_enigme_map(screen_manager):
     print(screen_manager.children)
+    print("clear_enigme_map - passage dans clear_enigme_map")
     button_list = screen_manager.get_screen('main').ids.copy()
     button_list.pop('map')
     # Désactiver les boutons
@@ -69,7 +141,30 @@ def clear_enigme_map(screen_manager):
     # Changer l'image
     screen_manager.get_screen('main').ids['map'].source = './resources/images/map_cleared.png'
     # Ajouter texte log
-    add_log(screen_manager, search_log('enigme_map'))
+    show_pastille(screen_manager, "enigme_1")
+    show_pastille(screen_manager, "enigme_2")
+
+    #flag unlocked si pas déjà fait + ajout du log
+    if not already_retrieved("enigme_map"):
+        print("clear_enigme_map - premier déblocage d'engime_map")
+        add_log(screen_manager, search_log('enigme_map'))
+        update_clear_log('enigme_map')
+        update_clear_enigme("enigme_map")
+
+
+
+def clear_enigme_2(screen_manager):
+    show_pastille(screen_manager, "enigme_3")
+    if not already_retrieved("log_3"):
+        add_log(screen_manager, search_log("log_3"))
+        add_log(screen_manager, search_log("log_4"))
+        update_clear_log("log_3")
+        update_clear_log("log_4")
+        update_clear_enigme("enigme_2")
+    print("clear enigme 2")
+
+
+
 
 def search_log(enigme):
     conn = sql.connect('jdp.db')
@@ -82,6 +177,8 @@ def search_log(enigme):
     """)
 
     res = cur.fetchall()
+    conn.close()
+
     print(res[0])
     return res[0]
 
@@ -97,8 +194,10 @@ def get_cleared_enigmes():
     WHERE cleared = 1;
     """)
     result = cur.fetchall()
+    print("get_cleared_enigmes - enigmes à récupérer : " + str(result))
     for res in result:
         # execution de la fonction correspondante
+        print("get_cleared_enigmes - executing : " + str(res[2]))
         exec(res[2], globals(), locals())
 
     conn.close()
@@ -161,6 +260,8 @@ class ChooseLocPopup(Popup):
     def check_status(self, text):
         button_list = App.get_running_app().root.get_screen('main').ids.copy()
         button_list.pop('map')
+        for i in range(1,8):
+            button_list.pop('enigme_'+str(i))
         button_list[self.ogbttnid].text = text
         if self.curr_bttn_name == text:
             all_clear = True
@@ -168,17 +269,6 @@ class ChooseLocPopup(Popup):
                 if id != button_list[id].text:
                     all_clear = False
             if all_clear:
-                conn = sql.connect('jdp.db')
-                cur = conn.cursor()
-
-                # enigme_map débloquée en bdd
-                cur.execute("""
-                UPDATE enigmes
-                SET cleared = 1
-                WHERE name = 'enigme_map';
-                """)
-                conn.commit()
-                conn.close()
                 clear_enigme_map(App.get_running_app().root)
                # Ajouter backlog ici ?
                 clear_sound()
@@ -299,7 +389,7 @@ class JdpMain(App):
         #screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
         retrieve_logs(screen_manager)
         get_cleared_enigmes()
-        print(screen_manager.screen_names)
+        # print(screen_manager.screen_names)
         return screen_manager
 
 

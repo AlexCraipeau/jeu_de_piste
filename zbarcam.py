@@ -13,7 +13,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.core.audio import SoundLoader
 from kivy.utils import platform
 
-from main import search_log, add_log
+from main import search_log, add_log, clear_enigme_map, clear_enigme_2, update_clear_log
 from utils import fix_android_image
 import sqlite3 as sql
 
@@ -264,16 +264,18 @@ class ZBarCam(AnchorLayout):
                 new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
 
                 new_pass.play()
-                cur.execute("""
-                        UPDATE passwords
-                        SET unlocked = 1
-                        WHERE password = ?;""", [password])
-                conn.commit()
+
+                if result[2] != "":
+                    exec(result[2], globals(), locals())
+                else:
+                    add_log(App.get_running_app().root, search_log(password))
+                    update_clear_log(password)
+
                 print(App.get_running_app())
                 print(App.get_running_app().root)
                 print(password)
-                add_log(App.get_running_app().root, search_log(password))
-
+                #add_log(App.get_running_app().root, search_log(password))
+                conn.close()
 
         conn.close()
         return True
