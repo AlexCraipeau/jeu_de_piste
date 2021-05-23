@@ -206,6 +206,7 @@ def clear_enigme_6_lievre(screen_manager):
     add_log(screen_manager, search_log("log_11"))
     update_clear_log("log_11")
     update_clear_enigme("enigme_6")
+    screen_manager.get_screen('main').ids['dessinbutton'].disabled = False
     print("clear_enigme_6")
 
 
