@@ -99,7 +99,7 @@ def add_log(screen_manager, lst):
         print("add_log - nouvelle liste des logs : " + str(logs_list))
         logs_list.sort(key=lambda x: x[1])
         print(logs_list)
-        screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n\n' for elt in logs_list)
+        screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n_____________________________________________\n' for elt in logs_list)
 
 
 def update_clear_log(log):
@@ -143,17 +143,18 @@ def clear_enigme_map(screen_manager):
     # Ajouter texte log
     show_pastille(screen_manager, "enigme_1")
     show_pastille(screen_manager, "enigme_2")
+    screen_manager.get_screen('main').ids['qrcodebutton'].disabled = False
 
     #flag unlocked si pas déjà fait + ajout du log
     if not already_retrieved("enigme_map"):
         print("clear_enigme_map - premier déblocage d'engime_map")
+        print("clear_enigme_map - rajout bouton logs")
         add_log(screen_manager, search_log('enigme_map'))
         update_clear_log('enigme_map')
         update_clear_enigme("enigme_map")
 
 
-
-def clear_enigme_2(screen_manager):
+def clear_enigme_2_laby(screen_manager):
     show_pastille(screen_manager, "enigme_3")
     if not already_retrieved("log_3"):
         add_log(screen_manager, search_log("log_3"))
@@ -164,7 +165,57 @@ def clear_enigme_2(screen_manager):
     print("clear enigme 2")
 
 
+def clear_enigme_3_analyse(screen_manager):
+    show_pastille(screen_manager, "enigme_4")
+    add_log(screen_manager, search_log("log_5"))
+    update_clear_log("log_5")
+    update_clear_enigme("enigme_3")
+    print("clear_enigme_3")
 
+# changer log enigme pigpen pour password
+def clear_enigme_4_pigpen(screen_manager):
+    show_pastille(screen_manager, "enigme_5")
+    add_log(screen_manager, search_log("log_8"))
+    update_clear_log("log_8")
+    add_log(screen_manager, search_log("log_8b"))
+    update_clear_log("log_8b")
+
+    update_clear_enigme("enigme_4")
+
+    print("clear_enigme_4")
+
+
+def clear_enigme_5_cryptex(screen_manager):
+    print("clear_enigme_5_cryptex - passage")
+    show_pastille(screen_manager, "enigme_6")
+    add_log(screen_manager, search_log("log_9"))
+    update_clear_log("log_9")
+    #Ajouter timer invisible de 3 min qui déclenche log 9b
+    add_log(screen_manager, search_log("log_9b"))
+    update_clear_log("log_9b")
+    update_clear_enigme("enigme_5")
+
+
+def init_enigme_6_lievre(screen_manager):
+    add_log(screen_manager, search_log("log_10"))
+    update_clear_log("log_10")
+    screen_manager.get_screen('main').ids['lievrebutton'].disabled = False
+
+def clear_enigme_6_lievre(screen_manager):
+    show_pastille(screen_manager, "enigme_7")
+    add_log(screen_manager, search_log("log_11"))
+    update_clear_log("log_11")
+    update_clear_enigme("enigme_6")
+    print("clear_enigme_6")
+
+
+def clear_enigme_7_dessin(screen_manager):
+    print("clear_enigme_7")
+    add_log(screen_manager, search_log("log_13"))
+    update_clear_log("log_13")
+    update_clear_enigme("enigme_7")
+
+# changer log enigme arcenciel pour password
 
 def search_log(enigme):
     conn = sql.connect('jdp.db')
@@ -258,10 +309,13 @@ class ChooseLocPopup(Popup):
         self.ogbttnid = name
 
     def check_status(self, text):
+        menu_buttons_list = ['qrcodebutton','lievrebutton', 'dessinbutton']
         button_list = App.get_running_app().root.get_screen('main').ids.copy()
         button_list.pop('map')
         for i in range(1,8):
             button_list.pop('enigme_'+str(i))
+        for b in menu_buttons_list:
+            button_list.pop(b)
         button_list[self.ogbttnid].text = text
         if self.curr_bttn_name == text:
             all_clear = True
@@ -384,9 +438,10 @@ class JdpMain(App):
         screen_manager.add_widget(qrcodes.QrcodeScreen(name='qrcode'))
         screen_manager.add_widget(password.PasslistScreen(name='pass'))
         screen_manager.add_widget(log.LogScreen(name='log'))
-        screen_manager.add_widget(fables.FablesScreen(name='fables'))
+        # On enlève le screen des fables : inutile pour l'instant
+        # screen_manager.add_widget(fables.FablesScreen(name='fables'))
         screen_manager.add_widget(enigmes.LievreScreen(name='lievre'))
-        #screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
+        screen_manager.add_widget(enigmes.DessinScreen(name='dessin'))
         retrieve_logs(screen_manager)
         get_cleared_enigmes()
         # print(screen_manager.screen_names)

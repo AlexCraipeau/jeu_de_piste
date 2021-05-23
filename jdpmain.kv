@@ -113,10 +113,13 @@
                 background_color: 0, 0, 0, 0.5
 
             Button:
+                id: qrcodebutton
                 size: 128, 128
                 pos: root.width - 128, 10
+                disabled: True
                 background_normal: './resources/images/qrcode_icon.png'
                 background_down: './resources/images/qrcode_icon_pressed.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
                 on_press:
                     root.manager.transition.direction = "left"
                     root.manager.transition.duration = 0
@@ -143,15 +146,16 @@
                     root.manager.transition.duration = 0.1
                     root.manager.current = "log"
 
-            Button:
-                size: 128, 128
-                pos: root.width - 128, 170
-                background_normal: './resources/images/book.png'
-                background_down: './resources/images/book.png'
-                on_press:
-                    root.manager.transition.direction = "down"
-                    root.manager.transition.duration = 0.1
-                    root.manager.current = "fables"
+# Bouton Fables
+#            Button:
+#                size: 128, 128
+#                pos: root.width - 128, 170
+#                background_normal: './resources/images/book.png'
+#                background_down: './resources/images/book.png'
+#                on_press:
+#                    root.manager.transition.direction = "down"
+#                    root.manager.transition.duration = 0.1
+#                    root.manager.current = "fables"
 
             Button:
                 size: 128, 128
@@ -161,24 +165,29 @@
                 on_press: root.reinit_popup()
 
             Button:
+                id: lievrebutton
                 size: 128, 128
                 pos: 10, 170
-                #disabled: True
+                disabled: True
                 #background_color: 0, 0, 0, 0
                 background_normal: './resources/images/clock.png'
                 background_down: './resources/images/clock.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
+
                 on_press:
                     root.manager.transition.direction = "down"
                     root.manager.transition.duration = 0.1
                     root.manager.current = "lievre"
 
             Button:
+                id: dessinbutton
                 size: 128, 128
                 pos: 10, 320
-                #disabled: True
+                disabled: True
                 #background_color: 0, 0, 0, 0
                 background_normal: './resources/images/compass.png'
                 background_down: './resources/images/compass.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
                 on_press:
                     root.manager.transition.direction = "down"
                     root.manager.transition.duration = 0.1

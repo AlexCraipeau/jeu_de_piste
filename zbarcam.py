@@ -13,7 +13,11 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.core.audio import SoundLoader
 from kivy.utils import platform
 
-from main import search_log, add_log, clear_enigme_map, clear_enigme_2, update_clear_log
+from main import search_log, add_log, update_clear_log, clear_enigme_map, \
+    clear_enigme_2_laby, clear_enigme_3_analyse, clear_enigme_4_pigpen, \
+    clear_enigme_5_cryptex, clear_enigme_6_lievre, clear_enigme_7_dessin, \
+    init_enigme_6_lievre
+
 from utils import fix_android_image
 import sqlite3 as sql
 
