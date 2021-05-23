@@ -152,10 +152,12 @@ def clear_enigme_map(screen_manager):
         add_log(screen_manager, search_log('enigme_map'))
         update_clear_log('enigme_map')
         update_clear_enigme("enigme_map")
-
+        # rajouter croix à la fontaine
 
 def clear_enigme_2_laby(screen_manager):
     show_pastille(screen_manager, "enigme_3")
+    # rajouter qrcodes qui rajoutent croix
+    # enlever croix à la fontaine
     if not already_retrieved("log_3"):
         add_log(screen_manager, search_log("log_3"))
         add_log(screen_manager, search_log("log_4"))
@@ -194,6 +196,7 @@ def clear_enigme_5_cryptex(screen_manager):
     add_log(screen_manager, search_log("log_9b"))
     update_clear_log("log_9b")
     update_clear_enigme("enigme_5")
+    update_clear_enigme("init_enigme_6")
 
 
 def init_enigme_6_lievre(screen_manager):
