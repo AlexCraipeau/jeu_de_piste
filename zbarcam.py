@@ -16,7 +16,7 @@ from kivy.utils import platform
 from main import search_log, add_log, update_clear_log, clear_enigme_map, \
     clear_enigme_2_laby, clear_enigme_3_analyse, clear_enigme_4_pigpen, \
     clear_enigme_5_cryptex, clear_enigme_6_lievre, clear_enigme_7_dessin, \
-    init_enigme_6_lievre
+    init_enigme_6_lievre, show_cross, hide_cross
 
 from utils import fix_android_image
 import sqlite3 as sql
@@ -280,6 +280,7 @@ class ZBarCam(AnchorLayout):
                 print(password)
                 #add_log(App.get_running_app().root, search_log(password))
                 conn.close()
-
+            # c'est dégueu
+            conn.close()
         conn.close()
         return True

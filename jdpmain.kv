@@ -1,7 +1,7 @@
-#:include password.kv
 #:include log.kv
 #:include fables.kv
 #:include qrcodes.kv
+#:include enigmes.kv
 
 <JdpGrid>
     FloatLayout:
@@ -125,15 +125,16 @@
                     root.manager.transition.duration = 0
                     root.manager.current = "qrcode"
 
-            Button:
-                size: 128, 128
-                pos: root.width - 268, 10
-                background_normal: './resources/images/pass_icon.png'
-                background_down: './resources/images/pass_icon_pressed.png'
-                on_press:
-                    root.manager.transition.direction = "right"
-                    root.manager.transition.duration = 0
-                    root.manager.current = "pass"
+# Bouton passScreen
+#            Button:
+#                size: 128, 128
+#                pos: root.width - 268, 10
+#                background_normal: './resources/images/pass_icon.png'
+#                background_down: './resources/images/pass_icon_pressed.png'
+#                on_press:
+#                    root.manager.transition.direction = "right"
+#                    root.manager.transition.duration = 0
+#                    root.manager.current = "pass"
 
 
             Button:
@@ -257,7 +258,42 @@
                 background_down: './resources/images/past_violet.png'
                 background_disabled_normal: './resources/images/past_disabled.png'
 
+# Crosses
+            Button:
+                id: cross_marais
+                size: 128, 128
+                pos: 300, 150
+                disabled: True
+                background_normal: './resources/images/cross.png'
+                background_down: './resources/images/cross.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
 
+            Button:
+                id: cross_fontaine
+                size: 128, 128
+                pos: 500, 350
+                disabled: True
+                background_normal: './resources/images/cross.png'
+                background_down: './resources/images/cross.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
+
+            Button:
+                id: cross_ciel
+                size: 128, 128
+                pos: 700, 500
+                disabled: True
+                background_normal: './resources/images/cross.png'
+                background_down: './resources/images/cross.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
+
+            Button:
+                id: cross_statue
+                size: 128, 128
+                pos: 900, 650
+                disabled: True
+                background_normal: './resources/images/cross.png'
+                background_down: './resources/images/cross.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
             Time:
                 text:root.t.text
                 pos: root.width/2 - 50, 0

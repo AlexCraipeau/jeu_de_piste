@@ -20,7 +20,7 @@ import datetime
 ### imports internes
 import enigmes
 import fables
-import password
+# import password
 import qrcodes
 import utils
 import log
@@ -144,7 +144,8 @@ def clear_enigme_map(screen_manager):
     show_pastille(screen_manager, "enigme_1")
     show_pastille(screen_manager, "enigme_2")
     screen_manager.get_screen('main').ids['qrcodebutton'].disabled = False
-
+    # rajouter qrcodes qui rajoutent croix
+    show_cross(screen_manager, "cross_fontaine")
     #flag unlocked si pas déjà fait + ajout du log
     if not already_retrieved("enigme_map"):
         print("clear_enigme_map - premier déblocage d'engime_map")
@@ -154,10 +155,23 @@ def clear_enigme_map(screen_manager):
         update_clear_enigme("enigme_map")
         # rajouter croix à la fontaine
 
+
+def show_cross(screen_manager, loc):
+    screen_manager.get_screen('main').ids[loc].disabled = False
+
+def hide_cross(screen_manager, loc):
+    screen_manager.get_screen('main').ids[loc].disabled = True
+
+
 def clear_enigme_2_laby(screen_manager):
     show_pastille(screen_manager, "enigme_3")
-    # rajouter qrcodes qui rajoutent croix
-    # enlever croix à la fontaine
+    # enlever croix
+    hide_cross(screen_manager, "cross_fontaine")
+    hide_cross(screen_manager, "cross_ciel")
+    hide_cross(screen_manager, "cross_statue")
+    hide_cross(screen_manager, "cross_marais")
+
+
     if not already_retrieved("log_3"):
         add_log(screen_manager, search_log("log_3"))
         add_log(screen_manager, search_log("log_4"))
@@ -440,7 +454,8 @@ class JdpMain(App):
     def build(self):
         screen_manager.add_widget(JdpGrid(name='main'))
         screen_manager.add_widget(qrcodes.QrcodeScreen(name='qrcode'))
-        screen_manager.add_widget(password.PasslistScreen(name='pass'))
+        # passscreen enlevé pour la v1
+        # screen_manager.add_widget(password.PasslistScreen(name='pass'))
         screen_manager.add_widget(log.LogScreen(name='log'))
         # On enlève le screen des fables : inutile pour l'instant
         # screen_manager.add_widget(fables.FablesScreen(name='fables'))

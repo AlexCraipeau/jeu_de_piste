@@ -15,7 +15,7 @@ from kivy.clock import Clock
 import zbarcam
 from plyer import gps
 
-from main import clear_sound
+from main import clear_sound, clear_enigme_6_lievre
 
 # ##################################################
 # # LievreScreen - Ecran de l'enigme Lievre & Tortue
@@ -36,6 +36,7 @@ class LievreScreen(SecondaryScreen):
             if screen.ids.answer.text == "mot de passe : XXXXXXXX":
                 print("succès")
                 clear_sound()
+                clear_enigme_6_lievre(App.get_running_app().root)
             else:
                 screen.ids.answer.text = "mot de passe : XXXXXXXX"
 

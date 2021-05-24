@@ -5,7 +5,7 @@ from kivy.core.audio import SoundLoader
 from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.label import Label
-
+# from kivy.app import App
 
 ##################################################
 # PasswordPopup - Rentrer un mot de passe
@@ -27,26 +27,35 @@ class PasswordPopup(Popup):
 
     def on_press(self):
         # Ouverture de la connexion
+
+        # from main import clear_enigme_7_dessin
+
         conn = sql.connect('jdp.db')
         cur = conn.cursor()
 
         # Vérification matching mot de passe / bdd
         cur.execute("""
-                 SELECT password from passwords
+                 SELECT * from passwords
                  where password = '""" + self.ids.inp.text + """'
                  and unlocked = 0;""")
-        result = cur.fetchall()
+        result = cur.fetchone()
 
         # Si matching, débloquer mot de passe
         if result:
-            new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
+            print("checkpassword result :", result)
+            if result[3] == 0:
+                new_pass = SoundLoader.load('resources/sounds/new_pass.wav')
 
-            new_pass.play()
-            cur.execute("""
-            UPDATE passwords
-            SET unlocked = 1
-            WHERE password = ?;""", [self.ids.inp.text])
-            conn.commit()
+                if result[2] != "":
+                    exec(result[2], globals(), locals())
+
+                new_pass.play()
+                cur.execute("""
+                UPDATE passwords
+                SET unlocked = 1
+                WHERE password = ?;""", [self.ids.inp.text])
+                conn.commit()
+
         conn.close()
         return True
 
@@ -59,6 +68,7 @@ class PasswordPopup(Popup):
 ##################################################
 class PasslistScreen(SecondaryScreen):
     def show_pass(self):
+
         conn = sql.connect('jdp.db')
         cur = conn.cursor()
         cur.execute("""

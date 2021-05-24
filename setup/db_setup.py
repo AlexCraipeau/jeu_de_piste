@@ -27,6 +27,9 @@ cur.execute("""INSERT INTO passwords VALUES
 ('init','init','',1),
 ('enigme_map','enigme_map','clear_enigme_map(App.get_running_app().root)',0),
 ('log_2','log_2','',0),
+('cross_ciel','cross_ciel','show_cross(App.get_running_app().root, "cross_ciel")',0),
+('cross_statue','cross_statue','show_cross(App.get_running_app().root, "cross_statue")',0),
+('cross_marais','cross_marais','show_cross(App.get_running_app().root, "cross_marais")',0),
 ('log_3','log_3','clear_enigme_2_laby(App.get_running_app().root)',0),
 ('log_4','log_4','',0),
 ('log_5','log_5','clear_enigme_3_analyse(App.get_running_app().root)',0),
@@ -40,10 +43,8 @@ cur.execute("""INSERT INTO passwords VALUES
 ('log_11','log_11','clear_enigme_6_lievre(App.get_running_app().root)',0),
 ('log_12','log_12','',0),
 ('log_13','log_13','clear_enigme_7_dessin(App.get_running_app().root)',0),
-('log_14','log_14','',0),
-('log_15','log_15','',0),
-('log_16','log_16','',0),
-('log_17','log_17','',0)
+('arcenciel','arcenciel','clear_enigme_7_dessin(App.get_running_app().root)',0),
+('log_14','log_14','',0)
 ;""")
 conn.commit()
 
@@ -124,7 +125,7 @@ Mon ami le Moineau s’en est-il rendu compte ?
 Mon apprentissage continuant, une question me taraude. 
 A-t-il réussi à réaliser ses rêves ? Il me faut le savoir. En fut-il capable ? 
 Et moi, le serai-je ?
-.", 5),
+", 5),
 ('log_6', "Aux abords d’une source, j’ai retrouvé sa trace. 
 D’infimes marques de pattes, encore bien dessinées. 
 A mon instar, Moineau semble bien suivre son propre chemin. 
@@ -188,9 +189,7 @@ Et bien soit !
 J’accepte mon destin. 
 De par mes expériences, je tirerai des maximes, des leçons à transmettre aux miens. 
 Ici-même je créerai la première, cachée pour qui comme moi a cherché des réponses.
-", 16),
-('log_15', 'La carte est complétée', 17),
-('log_16', 'La carte est complétée', 18)
+", 16)
 ;""")
 conn.commit()
 
