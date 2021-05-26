@@ -327,7 +327,9 @@ class ChooseLocPopup(Popup):
         self.ogbttnid = name
 
     def check_status(self, text):
-        menu_buttons_list = ['qrcodebutton','lievrebutton', 'dessinbutton']
+        menu_buttons_list = ['qrcodebutton','lievrebutton', 'dessinbutton',
+                             'cross_marais','cross_fontaine','cross_ciel',
+                             'cross_statue']
         button_list = App.get_running_app().root.get_screen('main').ids.copy()
         button_list.pop('map')
         for i in range(1,8):
@@ -335,12 +337,14 @@ class ChooseLocPopup(Popup):
         for b in menu_buttons_list:
             button_list.pop(b)
         button_list[self.ogbttnid].text = text
+        print(button_list)
         if self.curr_bttn_name == text:
             all_clear = True
             for id in button_list:
                 if id != button_list[id].text:
                     all_clear = False
             if all_clear:
+                print("map - all clear")
                 clear_enigme_map(App.get_running_app().root)
                # Ajouter backlog ici ?
                 clear_sound()

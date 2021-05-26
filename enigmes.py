@@ -10,6 +10,7 @@ import yaml
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.label import Label
 from kivy.lang import Builder
+import kivy_garden.mapview
 from functools import partial
 from kivy.clock import Clock
 import zbarcam
@@ -63,10 +64,15 @@ class LievreScreen(SecondaryScreen):
 
 class DessinScreen(SecondaryScreen):
 
+# au besoin : https://stackoverflow.com/questions/40829408/how-to-trace-a-path-in-kivy-map
+# pour dessiner direct sur la carte
+# https://kivy-garden.github.io/mapview/mapview.html
+# https://www.youtube.com/watch?v=P940dd1VxsU
+
     def on_gps_location(self, **kwargs):
         self.ids['lat'].text = str(kwargs['lat'])
         self.ids['lon'].text = str(kwargs['lon'])
-        print(kwargs)
+        # print(kwargs)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

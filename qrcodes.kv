@@ -10,7 +10,8 @@
         Label:
             size_hint: None, None
             size: self.texture_size[0], 50
-            text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
+            text: "qrcode détecté" if(zbarcam.symbols) else ""
+#            text: ', '.join([str(symbol.data) for symbol in zbarcam.symbols])
 
     Widget:
         Button:
@@ -34,9 +35,13 @@
 #                root.manager.transition.duration = 0
 #                root.manager.current = "pass"
 
+            Button:
+                size: 128, 128
+                pos: root.width - 128, 300
+                background_normal: './resources/images/quill_inversed.png'
+                background_down: './resources/images/quill_inversed.png'
+                on_press:
+                    root.manager.transition.direction = "up"
+                    root.manager.transition.duration = 0.1
+                    root.manager.current = "log"
 
-        Button:
-            size: 128, 128
-            pos: 10, 170
-            background_normal: './resources/images/map.png'
-            on_press: zbarcam.start()

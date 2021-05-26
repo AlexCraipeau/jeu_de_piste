@@ -8,7 +8,7 @@
         Image:
             id: map
             pos: 0, 0
-            source: './resources/images/empty_map_buttons.png'
+            source: './resources/images/empty_map.png'
             allow_stretch: True
 
         Widget:
@@ -16,101 +16,100 @@
                 id: plaine
                 id_name: 'plaine'
                 name: 'plaine'
-                text: ''
-                font_size: 100
+                text: '?'
                 color: 255, 255, 255, 1
                 pos: 900, root.height - 660
                 size: 380, 220
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: montagne
                 id_name: 'montagne'
                 name: 'montagne'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 1020, root.height - 900
                 size: 200, 230
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: jungle
                 id_name: 'jungle'
                 name: 'jungle'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 1230, root.height - 870
                 size: 220, 240
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: ciel
                 id_name: 'ciel'
                 name: 'ciel'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 760, root.height - 380
                 size: 190, 135
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: marais
                 id_name: 'marais'
                 name: 'marais'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 950, root.height - 360
                 size: 300, 175
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: fontaine
                 id_name: 'fontaine'
                 name: 'fontaine'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 1255, root.height - 230
                 size: 235, 175
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: jardin
                 id_name: 'jardin'
                 name: 'jardin'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 390, root.height - 480
                 size: 325, 185
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: ville
                 id_name: 'ville'
                 name: 'ville'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 780, root.height - 770
                 size: 235, 125
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             PopupBttn:
                 id: remparts
                 id_name: 'remparts'
                 name: 'remparts'
-                text: ''
-
+                text: '?'
+                color: 255, 255, 255, 1
                 pos: 580, root.height - 890
                 size: 400, 125
                 on_press: self.open_popup()
-                background_color: 0, 0, 0, 0.5
+                background_color: 0, 0, 0, 0
 
             Button:
                 id: qrcodebutton
@@ -262,7 +261,7 @@
             Button:
                 id: cross_marais
                 size: 128, 128
-                pos: 300, 150
+                pos: 1052, root.height - 270
                 disabled: True
                 background_normal: './resources/images/cross.png'
                 background_down: './resources/images/cross.png'
@@ -271,7 +270,7 @@
             Button:
                 id: cross_fontaine
                 size: 128, 128
-                pos: 500, 350
+                pos: 1250, root.height - 290
                 disabled: True
                 background_normal: './resources/images/cross.png'
                 background_down: './resources/images/cross.png'
@@ -280,7 +279,7 @@
             Button:
                 id: cross_ciel
                 size: 128, 128
-                pos: 700, 500
+                pos: 825, root.height - 425
                 disabled: True
                 background_normal: './resources/images/cross.png'
                 background_down: './resources/images/cross.png'
@@ -289,7 +288,7 @@
             Button:
                 id: cross_statue
                 size: 128, 128
-                pos: 900, 650
+                pos: 1064, root.height - 780
                 disabled: True
                 background_normal: './resources/images/cross.png'
                 background_down: './resources/images/cross.png'
