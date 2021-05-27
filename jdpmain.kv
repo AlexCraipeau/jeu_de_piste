@@ -183,12 +183,13 @@
                 id: dessinbutton
                 size: 128, 128
                 pos: 10, 320
-                disabled: True
+                disabled: False
                 #background_color: 0, 0, 0, 0
                 background_normal: './resources/images/compass.png'
                 background_down: './resources/images/compass.png'
                 background_disabled_normal: './resources/images/past_disabled.png'
                 on_press:
+                    root.manager.get_screen('dessin').ids['centerbutton'].disabled = False
                     root.manager.transition.direction = "down"
                     root.manager.transition.duration = 0.1
                     root.manager.current = "dessin"

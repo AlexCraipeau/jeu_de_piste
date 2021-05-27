@@ -26,10 +26,98 @@
             on_press: root.set()
 
 <DessinScreen>
-    BoxLayout:
-        Label:
-            id: lat
-            text: "bite"
-        Label:
-            id: lon
-            text: "poil"
+    FloatLayout:
+        MapView:
+            id: map
+            lat: 48.8422
+            lon: 2.38765
+            zoom: 18
+            MapMarkerPopup:
+                id: point_1
+                source: "./resources/images/gpsmarker_next.png"
+                lon: 2.388240
+                lat: 48.84208
+
+            MapMarkerPopup:
+                id: point_1_ref1
+                source: "./resources/images/gpsmarker.png"
+                lon: 2.388240-0.00002
+                lat: 48.84208-0.00002
+            MapMarkerPopup:
+                id: point_1_ref1
+                source: "./resources/images/gpsmarker.png"
+                lon: 2.388240+0.00002
+                lat: 48.84208-0.00002
+            MapMarkerPopup:
+                id: point_1_ref1
+                source: "./resources/images/gpsmarker.png"
+                lon: 2.388240-0.00002
+                lat: 48.84208+0.00002
+            MapMarkerPopup:
+                id: point_1_ref1
+                source: "./resources/images/gpsmarker.png"
+                lon: 2.388240+0.00002
+                lat: 48.84208+0.00002
+
+            MapMarkerPopup:
+                id: point_2
+                source: "./resources/images/gpsmarker_hidden.png"
+                lon: 2.38784
+                lat: 48.84223
+
+            MapMarkerPopup:
+                id: point_3
+                source: "./resources/images/gpsmarker_hidden.png"
+                lon: 2.38848
+                lat: 48.84286
+
+            MapMarkerPopup:
+                id: point_4
+                source: "./resources/images/gpsmarker_hidden.png"
+                lon: 2.38811
+                lat: 48.84299
+
+            MapMarkerPopup:
+                id: point_5
+                source: "./resources/images/gpsmarker_hidden.png"
+                lon: 2.38743
+                lat: 48.84239
+
+            MapMarkerPopup:
+                id: point_6
+                source: "./resources/images/gpsmarker_hidden.png"
+                lon: 2.38709
+                lat: 48.84253
+
+            MapMarkerPopup:
+                id: point_7
+                source: "./resources/images/gpsmarker_hidden.png"
+                lon: 2.38717
+                lat: 48.84197
+
+            MapMarkerPopup:
+                id: player
+                source: "./resources/images/playermarker.png"
+                lon: 2.387217
+                lat: 48.841971
+
+        Widget:
+            Button:
+                id: centerbutton
+                size: 128, 128
+                pos: root.width - 128, 10
+                disabled: True
+                background_normal: './resources/images/qrcode_icon.png'
+                background_down: './resources/images/qrcode_icon_pressed.png'
+                background_disabled_normal: './resources/images/past_disabled.png'
+                on_press:
+                    root.ids['map'].lon = 2.38765
+                    root.ids['map'].lat = 48.8422
+                    root.ids['map'].zoom: 18
+
+#        Label:
+#            id: lat
+#            text: "bite"
+#        Label:
+#            id: lon
+#            text: "poil"
