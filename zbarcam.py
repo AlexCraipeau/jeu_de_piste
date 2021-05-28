@@ -147,7 +147,7 @@ class ZBarCam(AnchorLayout):
 
     resolution = ListProperty([640, 480])
     last_symbol = ""
-    bullshit = StringProperty('XXXXXXXX')
+    bullshit = StringProperty('????????')
     symbols = ListProperty([])
     Symbol = namedtuple('Symbol', ['type', 'data'])
     # checking all possible types by default

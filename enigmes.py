@@ -34,12 +34,13 @@ class LievreScreen(SecondaryScreen):
         screen.ids.timer.text = str(t)
         if t==0:
             screen.stop()
-            if screen.ids.answer.text == "mot de passe : XXXXXXXX":
+            if screen.ids.answer.text == "mot de passe : ????????":
                 print("succès")
+                screen.ids.answer.text == "mot de passe : PATIENCE"
                 clear_sound()
                 clear_enigme_6_lievre(App.get_running_app().root)
             else:
-                screen.ids.answer.text = "mot de passe : XXXXXXXX"
+                screen.ids.answer.text = "mot de passe : ????????"
 
     def start(self):
         if not self.already_pressed:
@@ -67,49 +68,61 @@ class DessinScreen(SecondaryScreen):
     next_location = 1
     next_lat = 48.84208
     next_lon = 2.388240
+    #next_lat = 48.84208
+    #next_lon = 2.388240
 # au besoin : https://stackoverflow.com/questions/40829408/how-to-trace-a-path-in-kivy-map
 # pour dessiner direct sur la carte
 # https://kivy-garden.github.io/mapview/mapview.html
 # https://www.youtube.com/watch?v=P940dd1VxsU
+    def get_next_loc_coordinates(self):
+        return self.ids['point_' + str(self.next_location)].lat, self.ids['point_' + str(self.next_location)].lon
 
     def on_gps_location(self, **kwargs):
-
-        def get_next_loc_coordinates(self):
-            return self.ids['point_' + str(self.next_location)].lat, self.ids['point_' + str(self.next_location)].lon
-            # print(kwargs)
 
         self.ids['player'].lon = str(kwargs['lon'])
         self.ids['player'].lat = str(kwargs['lat'])
 
-        self.ids['lat'].text = str(kwargs['lat'])
-        self.ids['lon'].text = str(kwargs['lon'])
-        self.ids['map'].center_on((kwargs['lat'],kwargs['lon']))
-
+        # self.ids['lat'].text = str(kwargs['lat'])
+        # self.ids['lon'].text = str(kwargs['lon'])
+        # self.ids['map'].center_on((kwargs['lat'],kwargs['lon']))
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        # print("lon actuelle : " + str(kwargs['lon']) + " vs : " + str(self.next_lon))
+        # print("lat actuelle : " + str(kwargs['lat']) + " vs : " + str(self.next_lat))
+        print("next location : " + str(self.next_location))
         if (self.ids['centerbutton'].disabled == False
-                and self.ids['player'].lat > self.next_lat-0.00001
-                and self.ids['player'].lat < self.next_lat+ 0.00001
-                and self.ids['player'].lon > self.next_lon-0.00001
-                and self.ids['player'].lat < self.next_lon + 0.00001):
+                and kwargs['lat'] >= self.next_lat-0.00003
+                and kwargs['lat'] <= self.next_lat + 0.00003
+                and kwargs['lon'] >= self.next_lon-0.00003
+                and kwargs['lon'] <= self.next_lon + 0.00003):
             print(" Dessin - point trouvé !")
             #changement de couleur point actuel (complété)
-            self.ids['point_' + str(self.next_location)].source = "./resources/images/gpsmarker.png"
+            self.reveal_next()
 
-            if self.next_location < 7:
-                # changement du next_location
-                self.next_location = self.next_location + 1
-                # changement des next_lat/next_long
-                self.next_lat, self.next_long = get_next_loc_coordinates()
-                # affichage du point suivant
-                self.ids['point_' + str(self.next_location)].source = "./resources/images/gpsmarker_next.png"
-            elif self.location == 7:
-                add_log(App.get_running_app().root, search_log("log_12"))
-                self.next_lat = 10
-                self.next_long = 10
-                self.next_location = 8
-                #evite de charger l'image en boucle - solution de merde
-            else:
-                print("Dessin - fini")
+    def reveal_next(self):
+        self.ids['point_' + str(self.next_location)].source = "./resources/images/gpsmarker.png"
 
+        if self.next_location < 7:
+            # changement du next_location
+            self.next_location = self.next_location + 1
+            # changement des next_lat/next_long
+            self.next_lat, self.next_lon = self.get_next_loc_coordinates()
+            print("DESSIN - next coordinates : " + str(self.next_lat) + " || " + str(self.next_lon))
+            # affichage du point suivant
+            self.ids['point_' + str(self.next_location)].source = "./resources/images/gpsmarker_next.png"
+        elif self.next_location == 7:
+            print("fin de l'énigme dessin")
+            add_log(App.get_running_app().root, search_log("log_12"))
+            self.next_lat = 10
+            self.next_long = 10
+            self.next_location = 8
+            # evite de charger l'image en boucle - solution de merde
+        else:
+            print("Dessin - fini")
+
+    def try_reveal_next(self, point):
+        print("j'appuie - next_location : " + str(self.next_location))
+        if point == self.next_location:
+            self.reveal_next()
 
 
     def __init__(self, **kwargs):

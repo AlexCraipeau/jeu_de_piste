@@ -183,7 +183,7 @@
                 id: dessinbutton
                 size: 128, 128
                 pos: 10, 320
-                disabled: False
+                disabled: True
                 #background_color: 0, 0, 0, 0
                 background_normal: './resources/images/compass.png'
                 background_down: './resources/images/compass.png'
@@ -376,32 +376,3 @@
             text: 'jardin'
             on_release: root.check_status(self.text)
             on_release: root.dismiss()
-
-
-#        BoxLayout:
-#            size_hint_y: None
-#            height: sp(48)
-
-#            Button:
-#                text: root.ok_text
-#                on_press: root.ok()
-
-#            Button:
-#                text: root.cancel_text
-#                on_press: root.cancel()
-
-
-# Fonctionnement en textinput
-#        TextInput:
-#            id: text_input
-#            hint_text:'Entrer le lieu'
-#            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
-#            size_hint: 0.95, 0.5
-#            multiline: False
-#            on_text_validate : root.ok()
-
-#    BoxLayout:
-#        text_input: text_input
-#        size_hint_y: 0.9
-#        size_hiny_x: 0.9
-#        orientation : 'vertical'

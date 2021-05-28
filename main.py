@@ -99,7 +99,7 @@ def add_log(screen_manager, lst):
         print("add_log - nouvelle liste des logs : " + str(logs_list))
         logs_list.sort(key=lambda x: x[1])
         print(logs_list)
-        screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n_____________________________________________\n' for elt in logs_list)
+        screen_manager.get_screen('log').ids['logs'].text = ''.join(str(elt[1]) + ' >> '+ str(elt[0]) + '\n_____________________________________________\n\n' for elt in logs_list)
 
 
 def update_clear_log(log):

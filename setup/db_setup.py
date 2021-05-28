@@ -174,8 +174,9 @@ Tel ces enfants qui ont imaginé ce langage, je dois prendre de la hauteur et pe
 Je vais repartir m’imprégner à nouveau de ce que monde a à offrir.
 ", 13),
 ('log_12', "Voilà donc ce qu’il me manquait : l’[color=#8b00ff]IMAGINATION[/color].
-Parcourir les chemins, découvrir ces paysages m’a fait voir les choses sous un autre angle : Les sons, les couleurs, les symboles se mêlent et se répondent. 
-Un message qui se révèle à qui sait l’écouter. 
+Parcourir les chemins, découvrir ces paysages m’a fait voir les choses sous un autre angle : 
+les sons, les couleurs, les symboles se mêlent et se répondent. 
+Un message qui se révèle à qui sait le lire. 
 ", 14),
 ('log_13', "J’ai suivi un arc-en-ciel par delà les remparts. A son pied veillait un ange, protecteur et bienveillant, qui me tint ces propos :
     - <<Des lacs infinis aux montagnes de feu, de l’air que tu respires à la terre que tu foules, tout n’est qu’un.
@@ -189,6 +190,8 @@ Et bien soit !
 J’accepte mon destin. 
 De par mes expériences, je tirerai des maximes, des leçons à transmettre aux miens. 
 Ici-même je créerai la première, cachée pour qui comme moi a cherché des réponses.
+Non loin de l'ange, au pied de l'arc-en-ciel, résident les filles d'Atlas. Elles y tiennent le ciel
+duquel coulent les flots. Je leur confierai mon oeuvre.
 ", 16)
 ;""")
 conn.commit()
